@@ -111,4 +111,30 @@ textarea:focus {
   .resume-preview {
     width: 100%;
   }
+
+  button {
+    background-color: #7f5af0;
+    color: #fffffe;
+    border: 2px solid #2cb67d;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-family: "Orbitron", sans-serif;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px #7f5af0, 0 0 40px #2cb67d inset;
+  }
+
+  button:hover {
+    background-color: #2cb67d;
+    color: #16161a;
+    box-shadow: 0 0 10px #2cb67d, 0 0 40px #7f5af0 inset;
+    transform: translateY(-2px);
+  }
+
+  button:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 5px #2cb67d, 0 0 20px #7f5af0 inset;
+  }
 }
