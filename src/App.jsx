@@ -1,118 +1,106 @@
 import React, { useState } from "react";
+import PlusButton from "./plusButton";
+import Experience from "./Experience";
 import "./style.css";
 
-export default function App() {
+const App = () => {
+  const [experienceCount, setExperienceCount] = useState(1);
+  // const [collegeCount, setCollegeCount] = useState(1);
   const [personalDetails, setPersonalDetails] = useState({
     fullName: "",
     townState: "",
     cellNumber: "",
     email: "",
   });
+  const [experiences, setExperiences] = useState([
+    { jobTitle: "", company: "", startDate: "", endDate: "", description: "" },
+  ]);
+  // const [college, setCollege] = useState([
+  //   { college: "", startDate: "", endDate: "", degree: "" },
+  // ]);
 
-  const [experience, setExperience] = useState({
-    position: "",
-    company: "",
-    startDate: "",
-    endDate: "",
-    responsibilities: "",
-  });
+  const handleAddExperience = () => {
+    setExperienceCount(experienceCount + 1);
+    setExperiences([
+      ...experiences,
+      {
+        jobTitle: "",
+        company: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+      },
+    ]);
+  };
 
-  function handlePersonalChange(e) {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setPersonalDetails({ ...personalDetails, [name]: value });
-  }
+    setPersonalDetails({
+      ...personalDetails,
+      [name]: value,
+    });
+  };
 
-  function handleExperienceChange(e) {
-    const { name, value } = e.target;
-    setExperience({ ...experience, [name]: value });
-  }
+  const handleExperienceChange = (index, updatedExperience) => {
+    const updatedExperiences = experiences.map((exp, i) =>
+      i === index ? updatedExperience : exp
+    );
+    setExperiences(updatedExperiences);
+  };
 
   return (
     <div className="container">
       <div className="form-section">
         <h2>Personal Details</h2>
         <label>
-          Full Name
+          Full Name:
           <input
             type="text"
             name="fullName"
             value={personalDetails.fullName}
-            onChange={handlePersonalChange}
+            onChange={handleInputChange}
           />
         </label>
         <label>
-          Town/State
+          Town/State:
           <input
             type="text"
             name="townState"
             value={personalDetails.townState}
-            onChange={handlePersonalChange}
+            onChange={handleInputChange}
           />
         </label>
         <label>
-          Cell Number
+          Cell Number:
           <input
             type="text"
             name="cellNumber"
             value={personalDetails.cellNumber}
-            onChange={handlePersonalChange}
+            onChange={handleInputChange}
           />
         </label>
         <label>
-          Email
+          Email Address:
           <input
             type="email"
             name="email"
             value={personalDetails.email}
-            onChange={handlePersonalChange}
+            onChange={handleInputChange}
           />
         </label>
 
         <h2>Experience</h2>
-        <label>
-          Position
-          <input
-            type="text"
-            name="position"
-            value={experience.position}
-            onChange={handleExperienceChange}
+        {[...Array(experienceCount)].map((_, index) => (
+          <Experience
+            key={index}
+            index={index}
+            handleExperienceChange={handleExperienceChange}
           />
-        </label>
-        <label>
-          Company
-          <input
-            type="text"
-            name="company"
-            value={experience.company}
-            onChange={handleExperienceChange}
-          />
-        </label>
-        <label>
-          Start Date
-          <input
-            type="text"
-            name="startDate"
-            value={experience.startDate}
-            onChange={handleExperienceChange}
-          />
-        </label>
-        <label>
-          End Date
-          <input
-            type="text"
-            name="endDate"
-            value={experience.endDate}
-            onChange={handleExperienceChange}
-          />
-        </label>
-        <label>
-          Responsibilities
-          <textarea
-            name="responsibilities"
-            value={experience.responsibilities}
-            onChange={handleExperienceChange}
-          />
-        </label>
+        ))}
+        <PlusButton
+          style={{ marginTop: "10px" }}
+          onClick={handleAddExperience}
+        />
       </div>
 
       <div className="resume-preview">
@@ -125,15 +113,20 @@ export default function App() {
 
         <div className="resume-experience">
           <h2>Experience</h2>
-          <h3>{experience.position || "Position"}</h3>
-          <p>{experience.company || "Company"}</p>
-          <p>
-            {experience.startDate || "Start Date"} -{" "}
-            {experience.endDate || "End Date"}
-          </p>
-          <p>{experience.responsibilities || "Responsibilities go here..."}</p>
+          {experiences.map((exp, index) => (
+            <div key={index} className="experience-item">
+              <h3>{exp.jobTitle || "Job Title"}</h3>
+              <p>{exp.company || "Company"}</p>
+              <p>
+                {exp.startDate || "Start Date"} - {exp.endDate || "End Date"}
+              </p>
+              <p>{exp.description || "Description"}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default App;

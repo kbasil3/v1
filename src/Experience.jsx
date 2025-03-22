@@ -1,78 +1,74 @@
+import React, { useState } from "react";
 import "./style.css";
+import PlusButton from "./plusButton";
 
-export default function Experience({
-  personalExperience,
-  setPersonalExperience,
-}) {
-  function handleChange(e) {
+const Experience = ({ index, handleExperienceChange }) => {
+  const [experienceDetails, setExperienceDetails] = useState({
+    jobTitle: "",
+    company: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+  });
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setPersonalExperience({
-      ...personalExperience,
+    setExperienceDetails({
+      ...experienceDetails,
       [name]: value,
     });
-  }
+    handleExperienceChange(index, { ...experienceDetails, [name]: value });
+  };
 
   return (
-    <div className="form-and-resume">
-      {/* Form Section */}
-      <div className="form-section">
-        <h2>Experience</h2>
-
-        <label>
-          Position
-          <input
-            name="position"
-            value={personalExperience.position}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label>
-          Company
-          <input
-            name="company"
-            value={personalExperience.company}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label>
-          Start Date
-          <input
-            name="startDate"
-            value={personalExperience.startDate}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label>
-          End Date:
-          <input
-            name="endDate"
-            value={personalExperience.endDate}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label>
-          Responsibilities
-          <input
-            name="responsibilities"
-            value={personalExperience.responsibilities}
-            onChange={handleChange}
-          />
-        </label>
-      </div>
-
-      <div className="resume-preview">
-        <h1>{personalExperience.position || "Position"}</h1>
-        <h2>{personalExperience.company || "Company"}</h2>
-        <div className="contact-info">
-          <p>{personalExperience.startDate || "Start Date"}</p>
-          <p>{personalExperience.endDate || "End Date"}</p>
-          <p>{personalExperience.responsibilities || "Responsibilities"}</p>
-        </div>
-      </div>
+    <div className="experience-item">
+      <h3>Experience {index + 1}</h3>
+      <label>
+        Job Title:
+        <input
+          type="text"
+          name="jobTitle"
+          value={experienceDetails.jobTitle}
+          onChange={handleInputChange}
+        />
+      </label>
+      <label>
+        Company:
+        <input
+          type="text"
+          name="company"
+          value={experienceDetails.company}
+          onChange={handleInputChange}
+        />
+      </label>
+      <label>
+        Start Date:
+        <input
+          type="date"
+          name="startDate"
+          value={experienceDetails.startDate}
+          onChange={handleInputChange}
+        />
+      </label>
+      <label>
+        End Date:
+        <input
+          type="date"
+          name="endDate"
+          value={experienceDetails.endDate}
+          onChange={handleInputChange}
+        />
+      </label>
+      <label>
+        Description:
+        <textarea
+          name="description"
+          value={experienceDetails.description}
+          onChange={handleInputChange}
+        />
+      </label>
     </div>
   );
-}
+};
+
+export default Experience;
