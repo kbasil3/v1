@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import PlusButton from "./plusButton";
 import Experience from "./Experience";
+import College from "./College";
 import "./style.css";
 
 const App = () => {
   const [experienceCount, setExperienceCount] = useState(1);
-  // const [collegeCount, setCollegeCount] = useState(1);
+  const [collegeCount, setCollegeCount] = useState(1);
   const [personalDetails, setPersonalDetails] = useState({
     fullName: "",
     townState: "",
@@ -15,9 +16,9 @@ const App = () => {
   const [experiences, setExperiences] = useState([
     { jobTitle: "", company: "", startDate: "", endDate: "", description: "" },
   ]);
-  // const [college, setCollege] = useState([
-  //   { college: "", startDate: "", endDate: "", degree: "" },
-  // ]);
+  const [college, setCollege] = useState([
+    { college: "", startDate: "", endDate: "", degree: "" },
+  ]);
 
   const handleAddExperience = () => {
     setExperienceCount(experienceCount + 1);
@@ -29,6 +30,19 @@ const App = () => {
         startDate: "",
         endDate: "",
         description: "",
+      },
+    ]);
+  };
+
+  const handleAddCollege = () => {
+    setCollegeCount(collegeCount + 1);
+    setCollege([
+      ...college,
+      {
+        college: "",
+        startDate: "",
+        endDate: "",
+        degree: "",
       },
     ]);
   };
@@ -46,6 +60,13 @@ const App = () => {
       i === index ? updatedExperience : exp
     );
     setExperiences(updatedExperiences);
+  };
+
+  const handleCollegeChange = (index, updatedCollege) => {
+    const updatedColleges = college.map((exp, i) =>
+      i === index ? updatedCollege : exp
+    );
+    setCollege(updatedColleges);
   };
 
   return (
@@ -101,6 +122,15 @@ const App = () => {
           style={{ marginTop: "10px" }}
           onClick={handleAddExperience}
         />
+        <h2>College</h2>
+        {[...Array(collegeCount)].map((_, index) => (
+          <College
+            key={index}
+            index={index}
+            handleCollegeChange={handleCollegeChange}
+          />
+        ))}
+        <PlusButton style={{ marginTop: "10px" }} onClick={handleAddCollege} />
       </div>
 
       <div className="resume-preview">
